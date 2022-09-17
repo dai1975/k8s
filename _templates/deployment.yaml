@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+  name: 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: 
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: 
+      name: 
+    spec:
+      # serviceAccount: 
+      # serviceAccountName: 
+      # nodeSelector:
+      #   kubernetes.io/os: linux
+      # securityContext: {}
+      containers:
+      - name: 
+        image: docker.io/
+        imagePullPolicy: IfNotPresent
+        # env:
+        # - name: 
+        #   value: 
+        # livenessProbe:
+        #   exec:
+        #     command:
+        #     - /usr/bin/check-status
+        #     - -l
+        #   failureThreshold: 6
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 10
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #     - /usr/bin/check-status
+        #     - -r
+        #   failureThreshold: 3
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 1
+        # resources: {}

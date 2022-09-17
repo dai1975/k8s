@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: 
+  labels:
+    app: 
+spec:
+  selector:
+    app: 
+  clusterIP: None
+  ports:
+  - port: 
+    name: 
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+  name: 
+spec:
+  replicas: 1
+  serviceName: 
+  selector:
+    matchLabels:
+      app: 
+  volumeClaimTemplates:
+  - metadata:
+      name: 
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: 
+      resources:
+        requests:
+          storage: 1Gi
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: 
+      name: 
+    spec:
+      # serviceAccount: 
+      # serviceAccountName: 
+      # nodeSelector:
+      #   kubernetes.io/os: linux
+      # securityContext: {}
+      containers:
+      - name: 
+        image: docker.io/
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 
+          name: 
+        volumeMounts:
+        - name: 
+          mountPath: 
+        # env:
+        # - name: 
+        #   value: 
+        # livenessProbe:
+        #   exec:
+        #     command:
+        #     - /usr/bin/check-status
+        #     - -l
+        #   failureThreshold: 6
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 10
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #     - /usr/bin/check-status
+        #     - -r
+        #   failureThreshold: 3
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 1
+        # resources: {}
