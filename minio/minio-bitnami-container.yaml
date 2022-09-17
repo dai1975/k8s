@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: minio
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+  namespace: minio
+  labels:
+    app: minio
+spec:
+  selector:
+    app: minio
+  #clusterIP: None
+  type: LoadBalancer
+  loadBalancerIP: 192.168.39.220
+  ports:
+  - port: 9000
+    name: http-api
+  - port: 9001
+    name: http-console
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+  name: minio
+  namespace: minio
+spec:
+  replicas: 1
+  serviceName: minio
+  selector:
+    matchLabels:
+      app: minio
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      #storageClassName: 
+      resources:
+        requests:
+          storage: 1Gi
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: minio
+      name: minio
+    spec:
+      # serviceAccount: 
+      # serviceAccountName: 
+      # nodeSelector:
+      #   kubernetes.io/os: linux
+      # securityContext: {}
+      containers:
+      - name: minio
+        image: bitnami/minio:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9000
+          name: http-api
+        - containerPort: 9001
+          name: http-console
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        env:
+        - name: MINIO_ROOT_USER
+          value: root
+        - name: MINIO_ROOT_PASSWORD
+          value: password
+        - name: MINIO_DEFAULT_BUCKETS
+          value: 'public:public,private:none'
+        # livenessProbe:
+        #   exec:
+        #     command:
+        #     - /usr/bin/check-status
+        #     - -l
+        #   failureThreshold: 6
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 10
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #     - /usr/bin/check-status
+        #     - -r
+        #   failureThreshold: 3
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 1
+        # resources: {}
