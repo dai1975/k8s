@@ -1,1 +1,1 @@
-Simple kubernetes IoC files for boilerplating.
+Simple kubernetes IaC files for boilerplating.
