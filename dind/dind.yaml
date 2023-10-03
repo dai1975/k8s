@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dind
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dind
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: dind
+      name: dind
+    spec:
+      # serviceAccount:
+      # serviceAccountName:
+      # nodeSelector:
+      #   kubernetes.io/os: linux
+      # securityContext: {}
+      containers:
+      - name: main
+        image: public.ecr.aws/docker/library/docker:latest
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+        env:
+        - name: DOCKER_HOST
+          value: tcp://localhost:2375
+        # livenessProbe:
+        #   exec:
+        #     command:
+        #     - /usr/bin/check-status
+        #     - -l
+        #   failureThreshold: 6
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 10
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #     - /usr/bin/check-status
+        #     - -r
+        #   failureThreshold: 3
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 1
+        # resources: {}
+      - name: dind
+        image: public.ecr.aws/docker/library/docker:dind
+        securityContext:
+          privileged: true
+        resources:
+          requests:
+            cpu: 20m
+            memory: 512Mi
+        env:
+        - name: DOCKER_TLS_CERTDIR
+          value: ""
