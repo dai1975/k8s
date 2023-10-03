@@ -39,7 +39,7 @@ spec:
       name: data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      #storageClassName: 
+      #storageClassName:
       resources:
         requests:
           storage: 1Gi
@@ -50,14 +50,14 @@ spec:
         app: minio
       name: minio
     spec:
-      # serviceAccount: 
-      # serviceAccountName: 
+      # serviceAccount:
+      # serviceAccountName:
       # nodeSelector:
       #   kubernetes.io/os: linux
       # securityContext: {}
       containers:
       - name: minio
-        image: bitnami/minio:latest
+        image: public.ecr.aws/bitnami/minio:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9000
